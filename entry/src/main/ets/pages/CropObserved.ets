@@ -45,9 +45,7 @@ export default class CropObserved {
 
     getImageSize() {
 
-        if (!this.pixelMap) {
-            return
-        }
+        if (!this.pixelMap) return
 
         this.pixelMap.getImageInfo((error, info) => {
             let size = info.size
@@ -71,7 +69,7 @@ export default class CropObserved {
 
         if (action == 0) {
             this.verticalFlip = !this.verticalFlip
-            this.pixelMap.flip(false, true, () => {
+            this.pixelMap.flip(false, true, (error: BusinessError) => {
                 this.pixelMapChange()
             })
         } else if (action == 1) {
@@ -82,16 +80,17 @@ export default class CropObserved {
         } else {
             this.rotationAngle += 90
             this.pixelMap.rotate(90, (error) => {
-                this.pixelMapChange()
                 this.getImageSize()
             })
         }
     }
 
     pixelMapChange() {
-        let temporaryPixel = this.pixelMap
-        this.pixelMap = undefined
-        this.pixelMap = temporaryPixel
+        let size = this.imageSize
+        this.imageSize = { width: 300, height: 300 }
+        animateTo({duration: 16}, () => {
+            this.imageSize = size
+        })
     }
 
     cropLoading: boolean = false

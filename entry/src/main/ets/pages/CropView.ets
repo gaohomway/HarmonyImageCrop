@@ -30,7 +30,6 @@ export struct CropView {
             }
             .width('100%')
             .height('100%')
-            .clip(true)
         }
         .title(TitleText('编辑头像'))
         .backgroundColor(Color.Black)
@@ -63,7 +62,7 @@ struct CropImageView {
 
     build() {
         Stack() {
-            Image(this.observed.pixelMap ? this.observed.pixelMap : '')
+            Image(this.observed.pixelMap)
                 .width(this.observed.imageSize.width)
                 .height(this.observed.imageSize.height)
                 .translate({ x: this.offsetX, y: this.offsetY})
@@ -177,10 +176,10 @@ struct CropToolbarView {
                 .onClick(() => this.action(1))
             }
         }
-        .padding({left: 16, right: 16})
+        .padding({left: 16, right: 16, top: 16})
         .width('100%')
-        .height(48)
-        .backgroundBlurStyle(BlurStyle.Thin)
+        .backgroundBlurStyle(BlurStyle.BACKGROUND_ULTRA_THICK)
+        .expandSafeArea([SafeAreaType.SYSTEM], [SafeAreaEdge.BOTTOM])
     }
 }
 
